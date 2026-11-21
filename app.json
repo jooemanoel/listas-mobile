@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "Listas",
+    "slug": "listas",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#f5fafa",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jooemanoel.listas"
+    },
+    "android": {
+      "package": "com.jooemanoel.listas",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#006a6a",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "backgroundColor": "#006a6a",
+          "dark": {
+            "image": "./assets/splash-icon.png",
+            "backgroundColor": "#1b2627"
+          }
+        }
+      ],
+      "expo-sqlite",
+      ["./plugins/cmake-recente", { "versao": "3.31.6" }]
+    ]
+  }
+}
