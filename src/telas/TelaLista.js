@@ -1,4 +1,5 @@
-// Itens de uma lista: adicionar, marcar/desmarcar e remover.
+// Itens de uma lista: adicionar e remover. Não há marcação: o que foi resolvido
+// (comprado, feito) é removido; a lista mostra só o que está pendente.
 // Listas de lembretes usam um campo de várias linhas e mostram o texto como foi colado.
 // Tudo responde na hora (também offline); o servidor recebe na sincronização.
 import * as Clipboard from "expo-clipboard";
@@ -11,10 +12,10 @@ import Icone from "../componentes/Icone";
 import { avisar } from "../estado/aviso";
 import { LIMITE_LEMBRETE, resumir, useListas } from "../estado/listas";
 import { useEstilos } from "../estilos";
-import { formatarData, listaParaTexto } from "../formatar";
+import { contagem, formatarData, listaParaTexto } from "../formatar";
 import Pagina from "./Pagina";
 
-/** Itens deslizam ao mudar de posição (marcados vão para o fim). */
+/** Itens entram e saem com transição. */
 const animar = () => LayoutAnimation.configureNext(LayoutAnimation.create(220, "easeInEaseOut", "opacity"));
 
 // Lembretes com mais de 6 linhas (ou muito texto) aparecem recolhidos.
@@ -23,7 +24,7 @@ const longo = (texto) => texto.split("\n").length > LINHAS_RECOLHIDO || texto.le
 
 export default function TelaLista({ id, aoSumir }) {
   const { cores, e } = useEstilos();
-  const { listas, encontrar, abrir, adicionarItem, marcarItem, removerItem, conexao } = useListas();
+  const { listas, encontrar, abrir, adicionarItem, removerItem, conexao } = useListas();
   const [novo, setNovo] = useState("");
   /** Ids dos lembretes longos abertos por inteiro. */
   const [abertos, setAbertos] = useState(() => new Set());
@@ -31,10 +32,8 @@ export default function TelaLista({ id, aoSumir }) {
 
   const lista = encontrar(id);
   const lembretes = lista?.formato === "lembretes";
-  const todos = lista?.itens ?? [];
-  // Não marcados primeiro; marcados vão para o fim (ordem de inclusão mantida em cada grupo).
-  const itens = [...todos.filter((i) => !i.marcado), ...todos.filter((i) => i.marcado)];
-  const totalMarcados = todos.filter((i) => i.marcado).length;
+  // Na ordem em que foram adicionados.
+  const itens = lista?.itens ?? [];
 
   // Ao abrir, busca a versão do servidor (pode ter mudado em outro aparelho).
   useEffect(() => {
@@ -124,14 +123,7 @@ export default function TelaLista({ id, aoSumir }) {
     />
   );
 
-  let resumoItens = "";
-  if (itens.length && lembretes) {
-    resumoItens = `${itens.length} ${itens.length === 1 ? "lembrete" : "lembretes"}`;
-    if (totalMarcados) resumoItens += ` (${totalMarcados} ${totalMarcados === 1 ? "feito" : "feitos"})`;
-    resumoItens += " · ";
-  } else if (itens.length) {
-    resumoItens = `${totalMarcados} de ${itens.length} marcados · `;
-  }
+  const resumoItens = itens.length ? `${contagem(itens.length, lembretes)} · ` : "";
 
   return (
     <View style={e.tela}>
@@ -232,27 +224,11 @@ export default function TelaLista({ id, aoSumir }) {
                   <Text
                     selectable
                     numberOfLines={recolhivel && !aberto ? LINHAS_RECOLHIDO : undefined}
-                    style={[e.textoLembrete, item.marcado && e.textoLembreteFeito]}
+                    style={e.textoLembrete}
                   >
                     {item.nome}
                   </Text>
                   <View style={e.rodapeLembrete}>
-                    <Pressable
-                      onPress={() => {
-                        animar();
-                        marcarItem(id, item, !item.marcado);
-                      }}
-                      accessibilityRole="checkbox"
-                      accessibilityState={{ checked: item.marcado }}
-                      accessibilityLabel={`Feito: ${resumir(item.nome)}`}
-                      style={({ pressed }) => [e.marcarLembrete, pressed && e.pressionado]}
-                    >
-                      <Icone
-                        nome={item.marcado ? "marcado" : "desmarcado"}
-                        cor={item.marcado ? cores.textoSuave : cores.destaque}
-                      />
-                      <Text style={e.marcarLembreteTexto}>Feito</Text>
-                    </Pressable>
                     {recolhivel && (
                       <Pressable
                         onPress={() => alternar(item.id)}
@@ -288,23 +264,7 @@ export default function TelaLista({ id, aoSumir }) {
           <View style={e.linhas}>
             {itens.map((item, i) => (
               <View key={item.id} style={[e.linha, i > 0 && e.linhaSeparada]}>
-                <Pressable
-                  onPress={() => {
-                    animar();
-                    marcarItem(id, item, !item.marcado);
-                  }}
-                  accessibilityRole="checkbox"
-                  accessibilityState={{ checked: item.marcado }}
-                  accessibilityLabel={item.nome}
-                  android_ripple={{ color: cores.superficie2 }}
-                  style={({ pressed }) => [e.linhaPrincipal, pressed && e.linhaPressionada]}
-                >
-                  <Icone
-                    nome={item.marcado ? "marcado" : "desmarcado"}
-                    cor={item.marcado ? cores.textoSuave : cores.destaque}
-                  />
-                  <Text style={[e.nomeItem, item.marcado && e.nomeItemFeito]}>{item.nome}</Text>
-                </Pressable>
+                <Text style={[e.nomeItem, e.linhaTexto]}>{item.nome}</Text>
                 <BotaoIcone
                   icone="excluir"
                   rotulo={`Remover ${item.nome}`}

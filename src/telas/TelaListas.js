@@ -6,9 +6,8 @@ import Icone from "../componentes/Icone";
 import { avisar } from "../estado/aviso";
 import { useListas } from "../estado/listas";
 import { useEstilos } from "../estilos";
+import { contagem } from "../formatar";
 import Pagina from "./Pagina";
-
-const marcados = (lista) => lista.itens.filter((i) => i.marcado).length;
 
 export default function TelaListas({ aoAbrir, aoNovaLista }) {
   const { cores, e } = useEstilos();
@@ -63,13 +62,13 @@ export default function TelaListas({ aoAbrir, aoNovaLista }) {
         </Text>
         <View style={e.linhas}>
           {listas.map((lista, i) => {
-            const n = marcados(lista);
+            const n = lista.itens.length;
             return (
               <View key={lista.id} style={[e.linha, i > 0 && e.linhaSeparada]}>
                 <Pressable
                   onPress={() => aoAbrir(lista.id)}
                   accessibilityRole="button"
-                  accessibilityLabel={`${lista.nome}, ${n} de ${lista.itens.length} marcados${lista.pendente ? ", não sincronizada" : ""}`}
+                  accessibilityLabel={`${lista.nome}, ${contagem(n, lista.formato === "lembretes")}${lista.pendente ? ", não sincronizada" : ""}`}
                   android_ripple={{ color: cores.superficie2 }}
                   style={({ pressed }) => [e.linhaPrincipal, pressed && e.linhaPressionada]}
                 >
@@ -78,9 +77,7 @@ export default function TelaListas({ aoAbrir, aoNovaLista }) {
                     {lista.nome}
                   </Text>
                   {lista.pendente && <Text style={e.pendente}>não sincronizada</Text>}
-                  <Text style={e.contagem}>
-                    {n}/{lista.itens.length}
-                  </Text>
+                  <Text style={e.contagem}>{n}</Text>
                 </Pressable>
                 <BotaoIcone
                   icone="excluir"

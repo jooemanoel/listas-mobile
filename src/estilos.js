@@ -160,7 +160,8 @@ function criarEstilos(c) {
     linhaPressionada: { backgroundColor: c.superficie2 },
     nomeLista: { flexShrink: 1, color: c.texto, fontSize: 16, fontWeight: "500" },
     nomeItem: { flex: 1, color: c.texto, fontSize: 16, lineHeight: 22, fontWeight: "500" },
-    nomeItemFeito: { color: c.textoSuave, textDecorationLine: "line-through" },
+    // Item de lista: só o texto (sem marcação) e o botão de remover.
+    linhaTexto: { minHeight: 56, paddingVertical: 17, paddingLeft: 16, paddingRight: 8 },
     contagem: {
       marginLeft: "auto",
       paddingVertical: 2,
@@ -226,17 +227,15 @@ function criarEstilos(c) {
     acoesLembrete: { alignItems: "center", gap: 4 },
     lembrete: { marginBottom: 12, paddingTop: 16, paddingBottom: 4, paddingLeft: 16, paddingRight: 8 },
     textoLembrete: { color: c.texto, fontSize: 16, lineHeight: 23, marginRight: 8, marginBottom: 8 },
-    textoLembreteFeito: { color: c.textoSuave },
     rodapeLembrete: {
       flexDirection: "row",
       alignItems: "center",
+      justifyContent: "flex-end",
       gap: 2,
       paddingTop: 4,
       borderTopWidth: 1,
       borderTopColor: c.borda,
     },
-    marcarLembrete: { flex: 1, flexDirection: "row", alignItems: "center", gap: 8, minHeight: 44 },
-    marcarLembreteTexto: { color: c.textoSuave, fontSize: 14 },
     botaoTexto: { height: 36, paddingHorizontal: 12, borderRadius: 18, justifyContent: "center" },
     botaoTextoRotulo: { color: c.destaque, fontSize: 14, fontWeight: "600" },
 

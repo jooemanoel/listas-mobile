@@ -1,6 +1,6 @@
 {
   "name": "listas-mobile",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "index.js",
   "private": true,
   "description": "Listas de propósito geral (compras, tarefas, desejos), em React Native (Expo), para Android",
