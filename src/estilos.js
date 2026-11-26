@@ -189,6 +189,57 @@ function criarEstilos(c) {
     resumo: { flexDirection: "row", alignItems: "center", gap: 8, minHeight: 44, marginBottom: 4, marginLeft: 8 },
     resumoTexto: { flex: 1, color: c.textoSuave, fontSize: 13 },
 
+    // ---------- Aviso de versão nova ----------
+    avisoAtualizacao: { borderColor: c.destaque, gap: 14 },
+    acoesAtualizacao: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+
+    // ---------- Tipo da lista (nova lista) ----------
+    formatos: { gap: 8 },
+    formato: {
+      flexDirection: "row",
+      gap: 12,
+      alignItems: "flex-start",
+      paddingVertical: 12,
+      paddingHorizontal: 14,
+      borderWidth: 2,
+      borderColor: c.borda,
+      borderRadius: 12,
+    },
+    formatoEscolhido: { borderColor: c.destaque, backgroundColor: c.superficie2 },
+    formatoTextos: { flex: 1, gap: 2 },
+    formatoTitulo: { color: c.texto, fontSize: 16, fontWeight: "700" },
+    formatoDescricao: { color: c.textoSuave, fontSize: 13, lineHeight: 18 },
+
+    // ---------- Lembretes (textos de várias linhas) ----------
+    adicionarLembrete: { alignItems: "flex-end" },
+    campoLembrete: {
+      ...campo,
+      flex: 1,
+      height: undefined,
+      minHeight: 72,
+      maxHeight: 260,
+      paddingVertical: 12,
+      borderRadius: 16,
+      fontSize: 16,
+      lineHeight: 22,
+    },
+    acoesLembrete: { alignItems: "center", gap: 4 },
+    lembrete: { marginBottom: 12, paddingTop: 16, paddingBottom: 4, paddingLeft: 16, paddingRight: 8 },
+    textoLembrete: { color: c.texto, fontSize: 16, lineHeight: 23, marginRight: 8, marginBottom: 8 },
+    textoLembreteFeito: { color: c.textoSuave },
+    rodapeLembrete: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 2,
+      paddingTop: 4,
+      borderTopWidth: 1,
+      borderTopColor: c.borda,
+    },
+    marcarLembrete: { flex: 1, flexDirection: "row", alignItems: "center", gap: 8, minHeight: 44 },
+    marcarLembreteTexto: { color: c.textoSuave, fontSize: 14 },
+    botaoTexto: { height: 36, paddingHorizontal: 12, borderRadius: 18, justifyContent: "center" },
+    botaoTextoRotulo: { color: c.destaque, fontSize: 14, fontWeight: "600" },
+
     // ---------- Modo offline ----------
     chipOffline: {
       marginLeft: 4,

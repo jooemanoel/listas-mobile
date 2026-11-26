@@ -41,6 +41,20 @@ A barra superior tem três botões com ícones, como na versão web:
 - **Minhas listas**: nome e contagem de marcados (`2/3`); tocar abre a lista, a lixeira exclui a lista com todos os itens (com confirmação).
 - **Lista**: campo fixo no topo para adicionar (Enter adiciona e mantém o teclado aberto para o próximo item); marcar risca o item e o leva para o fim. O botão de copiar gera o texto para colar no WhatsApp (título em negrito, marcados riscados).
 - O botão "voltar" do Android volta para a tela anterior; em "Minhas listas", fecha o app.
+- **Listas de lembretes** (escolha o tipo ao criar a lista): cada item é um texto livre, guardado
+  exatamente como foi colado (várias linhas, maiúsculas e minúsculas, emojis), até 3000
+  caracteres. Serve para a mensagem de uma consulta marcada, um endereço, um recado. O campo
+  tem um botão para colar da área de transferência; lembretes longos aparecem recolhidos
+  ("Mostrar tudo"); cada um pode ser marcado como feito, copiado ou removido (com confirmação).
+
+## Aviso de versão nova
+
+Ao abrir, o app consulta a release marcada como *Latest* neste repositório
+(`api.github.com/repos/jooemanoel/listas-mobile/releases/latest`, no máximo uma vez por dia,
+com a resposta guardada no aparelho). Se a versão dela for maior que a do `app.json`, aparece
+um cartão com o botão para baixar o APK. "Depois" esconde o aviso até o app ser aberto de novo.
+Por isso, ao lançar uma versão, a tag da release deve ser `vX.Y.Z` igual ao `version` do
+`app.json`, com o `.apk` anexado.
 
 ## Modo offline
 
@@ -99,6 +113,7 @@ src/estado/aviso.js                 mensagens no rodapé
 src/estado/loja.js                  estado global lido com useSyncExternalStore (faz o papel dos ref() do Vue)
 src/servicos/api.js                 chamadas à listas-api (token no cabeçalho Authorization)
 src/servicos/armazenamento.js       gravação no aparelho (expo-sqlite/kv-store)
+src/servicos/atualizacao.js         consulta a última release no GitHub (aviso de versão nova)
 src/telas/                          login, minhas listas, nova lista, lista
 src/componentes/                    barra superior, cartão do modo offline, aviso, botões, campo, ícones SVG
 src/estilos.js                      cores e estilos (equivale ao estilo.css)

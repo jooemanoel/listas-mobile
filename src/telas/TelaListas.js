@@ -73,6 +73,7 @@ export default function TelaListas({ aoAbrir, aoNovaLista }) {
                   android_ripple={{ color: cores.superficie2 }}
                   style={({ pressed }) => [e.linhaPrincipal, pressed && e.linhaPressionada]}
                 >
+                  {lista.formato === "lembretes" && <Icone nome="lembrete" cor={cores.destaque} />}
                   <Text numberOfLines={1} style={e.nomeLista}>
                     {lista.nome}
                   </Text>
