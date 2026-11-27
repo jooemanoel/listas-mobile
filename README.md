@@ -52,7 +52,10 @@ A barra superior tem três botões com ícones, como na versão web:
 Ao abrir, o app consulta a release marcada como *Latest* neste repositório
 (`api.github.com/repos/jooemanoel/listas-mobile/releases/latest`, ao abrir e ao voltar para o app, no máximo uma vez por hora,
 com a resposta guardada no aparelho). Se a versão dela for maior que a do `app.json`, aparece
-um cartão com o botão para baixar o APK. "Depois" esconde o aviso daquela versão até o app ser aberto de novo.
+um cartão com o botão **Atualizar agora**: o app baixa o APK sozinho (sem passar pelo navegador,
+cujo download às vezes trava em 100%) e abre o instalador do Android. Na primeira vez, o Android
+pede para permitir que o Listas instale apps (permissão `REQUEST_INSTALL_PACKAGES`). Se o download
+falhar, o botão passa a abrir o APK no navegador. "Depois" esconde o aviso daquela versão até o app ser aberto de novo.
 Por isso, ao lançar uma versão, a tag da release deve ser `vX.Y.Z` igual ao `version` do
 `app.json`, com o `.apk` anexado.
 
