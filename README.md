@@ -50,9 +50,9 @@ A barra superior tem três botões com ícones, como na versão web:
 ## Aviso de versão nova
 
 Ao abrir, o app consulta a release marcada como *Latest* neste repositório
-(`api.github.com/repos/jooemanoel/listas-mobile/releases/latest`, no máximo uma vez por dia,
+(`api.github.com/repos/jooemanoel/listas-mobile/releases/latest`, ao abrir e ao voltar para o app, no máximo uma vez por hora,
 com a resposta guardada no aparelho). Se a versão dela for maior que a do `app.json`, aparece
-um cartão com o botão para baixar o APK. "Depois" esconde o aviso até o app ser aberto de novo.
+um cartão com o botão para baixar o APK. "Depois" esconde o aviso daquela versão até o app ser aberto de novo.
 Por isso, ao lançar uma versão, a tag da release deve ser `vX.Y.Z` igual ao `version` do
 `app.json`, com o `.apk` anexado.
 

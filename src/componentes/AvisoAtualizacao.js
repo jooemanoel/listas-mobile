@@ -1,21 +1,30 @@
 // Cartão "Versão X disponível" quando há uma release mais nova no GitHub.
-// A consulta é feita uma vez ao abrir o app (no máximo uma vez por dia na rede; veja
-// servicos/atualizacao.js). "Depois" esconde o aviso até o app ser aberto de novo.
-import { Linking, Text, View } from "react-native";
+// A consulta é feita ao abrir o app e ao voltar para ele (no máximo uma vez por hora na
+// rede; veja servicos/atualizacao.js). "Depois" esconde o aviso daquela versão até o app
+// ser aberto de novo; se sair outra versão nesse meio-tempo, o aviso volta.
+import { AppState, Linking, Text, View } from "react-native";
 import { criarLoja, useLoja } from "../estado/loja";
 import { useEstilos } from "../estilos";
 import { VERSAO_INSTALADA, verificarAtualizacao } from "../servicos/atualizacao";
 import Botao from "./Botao";
 import Icone from "./Icone";
 
-/** { versao, url } da versão nova, ou null. */
-const loja = criarLoja({ nova: null });
-verificarAtualizacao().then((nova) => loja.definir({ nova }));
+/** nova: { versao, url } da versão nova, ou null; adiada: versão escondida com "Depois". */
+const loja = criarLoja({ nova: null, adiada: null });
+
+function verificar() {
+  verificarAtualizacao().then((nova) => loja.definir({ nova }));
+}
+
+verificar();
+AppState.addEventListener("change", (estado) => {
+  if (estado === "active") verificar();
+});
 
 export default function AvisoAtualizacao() {
   const { cores, e } = useEstilos();
-  const { nova } = useLoja(loja);
-  if (!nova) return null;
+  const { nova, adiada } = useLoja(loja);
+  if (!nova || nova.versao === adiada) return null;
 
   return (
     <View style={[e.cartao, e.avisoAtualizacao]} accessibilityRole="alert">
@@ -28,7 +37,7 @@ export default function AvisoAtualizacao() {
       </View>
       <View style={e.acoesAtualizacao}>
         <Botao titulo="Baixar a nova versão" aoTocar={() => Linking.openURL(nova.url)} />
-        <Botao tipo="secundario" titulo="Depois" aoTocar={() => loja.definir({ nova: null })} />
+        <Botao tipo="secundario" titulo="Depois" aoTocar={() => loja.definir({ adiada: nova.versao })} />
       </View>
     </View>
   );
